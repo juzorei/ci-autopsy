@@ -3,6 +3,7 @@ name: publish-autopsy
 on:
   release:
     types: [published]
+  workflow_dispatch: {}
 
 permissions:
   id-token: write
