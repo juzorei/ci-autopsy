@@ -1,0 +1,21 @@
+{
+  "name": "ci-autopsy",
+  "owner": {
+    "name": "juzorei"
+  },
+  "metadata": {
+    "description": "CI failure triage: skill + autopsy CLI that classify failed GitHub Actions runs before anyone guesses",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "ci-autopsy",
+      "description": "Diagnose failed CI runs: classify infra noise vs broken workflow vs real test failure, decide rerun vs fix",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/ci-triage"
+      ]
+    }
+  ]
+}

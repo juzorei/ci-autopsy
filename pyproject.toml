@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+testpaths = ["tools/autopsy/tests", "skills"]
+pythonpath = ["tools/autopsy/src"]
+python_files = ["test_*.py"]

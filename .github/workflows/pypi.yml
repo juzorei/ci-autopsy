@@ -1,0 +1,26 @@
+name: publish-autopsy
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  id-token: write
+
+jobs:
+  pypi:
+    runs-on: ubuntu-latest
+    environment: pypi
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      # Trusted Publishing: preregister https://pypi.org/manage/account/publishing/
+      # PyPI project: ci-autopsy   owner: juzorei   repo: ci-autopsy
+      # workflow: .github/workflows/pypi.yml   environment: pypi
+      - run: python -m pip install build && python -m build
+        working-directory: tools/autopsy
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: tools/autopsy/dist
