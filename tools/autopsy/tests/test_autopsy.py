@@ -105,7 +105,8 @@ def test_cli_demo_and_classify(tmp_path, capsys):
     files = [str(p) for p in sorted(d.glob("*.txt"))]
     assert main(["classify", *files, "--json"]) == 0
     rows = json.loads(capsys.readouterr().out)
-    assert {r["file"].split("\\")[-1]: r["primary"] for r in rows} == dict(INTENDED)
+    got = {str(Path(r["file"]).name): r["primary"] for r in rows}
+    assert got == dict(INTENDED)
 
     assert main(["classify", files[0]]) == 0
     text = capsys.readouterr().out
