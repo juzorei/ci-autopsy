@@ -45,6 +45,16 @@ npx skills add juzorei/ci-autopsy   # the skill, for any supported agent
 
 As a Claude Code plugin: `/plugin marketplace add juzorei/ci-autopsy`.
 
+## More from this portfolio
+
+Part of a series of focused skill+CLI tools by the same author:
+
+- [loglens](https://github.com/juzorei/loglens) — triage huge logs the same way autopsy triages failed CI
+- [flakehunt](https://github.com/juzorei/flakehunt) — prove a test is flaky before rerunning it green
+- [bumpmap](https://github.com/juzorei/bumpmap) — the other half of a broken PR: dependency upgrades
+
+Browse the rest at the [juzorei profile](https://github.com/juzorei?tab=repositories).
+
 ## Scope
 
 For triaging failures in your own repositories and CI. Quarantining a flaky test honestly (linked issue + expiry date) instead of silencing it is part of the skill's contract.

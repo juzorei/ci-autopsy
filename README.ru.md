@@ -41,6 +41,16 @@ npx skills add juzorei/ci-autopsy  # скилл, для любого подде�
 
 Как плагин Claude Code: `/plugin marketplace add juzorei/ci-autopsy`.
 
+## Ещё из портфеля
+
+Один из серии прицельных наборов «скилл + CLI» одного автора:
+
+- [loglens](https://github.com/juzorei/loglens) — триаж больших логов — как autopsy триажит упавший CI
+- [flakehunt](https://github.com/juzorei/flakehunt) — докажи, что тест флакает, до перезапуска
+- [bumpmap](https://github.com/juzorei/bumpmap) — вторая половина сломанного PR: обновления зависимостей
+
+Остальные — в [профиле juzorei](https://github.com/juzorei?tab=repositories).
+
 ## Рамки
 
 Для триажа сбоев в собственных репозиториях и CI. Честный карантин флаков (linked issue + срок годности) вместо тихого скипывания — часть контракта скилла.
