@@ -23,6 +23,8 @@ $ autopsy run https://github.com/owner/repo/actions/runs/123456789
 
 ## How it works
 
+**0.1.1:** live GitHub reads now use GET with complete job pagination, honour `/attempts/N`, and strip terminal control sequences from downloaded logs. Reports identify the selected attempt and do not blindly recommend rerunning code failures or empty/in-progress runs. See the [CLI reference](tools/autopsy/README.md).
+
 - `autopsy run <url-or-id>` — fetches every failed job's log through the authenticated `gh` (no tokens, no API keys), classifies each job, prints verdict + evidence + extracted pytest summary + the appropriate action.
 - `autopsy classify <logs...>` — the same classification on saved logs, offline; `--json` for scripts.
 - `autopsy rules` — prints the built-in signature registry (plain TOML). Extend it with `--rules your.toml` or fully replace with `--replace`: every project has its own recurring noise, and rules are data, not code — commit them, review them in PRs.

@@ -24,6 +24,10 @@ autopsy run https://github.com/owner/repo/actions/runs/123456789   # classified 
 
 `autopsy run` fetches every failed job's log through the authenticated `gh` (no tokens of its own), classifies each, prints the verdict with evidence lines, extracted pytest summaries (failing tests, counts, first assertion) and the next action.
 
+Use ci-autopsy 0.1.1+ and a current `gh` for live reads. All job pages are fetched, so large matrices are not truncated. For a historical failure, preserve `/attempts/N` in the supplied URL: the CLI reads that attempt's metadata and jobs. Without it, the metadata's latest attempt is selected and pinned for log retrieval. Check the printed attempt before drawing conclusions, and inspect the current attempt before rerunning a historical failure. `run` never starts a rerun itself.
+
+If no failed-job logs are found, read the reported status/conclusion. An in-progress run is incomplete; a workflow-level failure can have no jobs. Neither proves a passing build. Retrieval errors exit 2; successful analysis exits 0 even when it describes failures. Do not use that exit code as a CI quality gate.
+
 If the run failed at the *workflow* level (no job ever started — invalid YAML), there are no job logs. Read the annotations instead:
 
 ```bash
@@ -64,6 +68,7 @@ Priority is deliberate: a timed-out job ends with a "cancelled" line, so `timeou
 
 - `config` — fix YAML. `actionlint` on the file catches most of this class before push.
 - `infra`, `dependency` — rerun failed jobs only: `gh run rerun <id> --failed`. Never rerun the whole run when one matrix leg failed; the other legs already told you they're fine.
+- When using a URL for another repository, include `--repo owner/repo`: `gh run rerun <id> --repo owner/repo --failed`. The repository is a flag, not a positional argument. A suggested rerun still needs to match the current failure and the user's requested scope.
 - `cancel` — nothing is broken. Don't "fix" anything.
 - `timeout`, `oom` — measure locally, then either fix the slowness/leak or raise the specific limit with a comment saying why.
 - `test-failure` — reproduce locally before editing. If it doesn't reproduce locally, it was `flaky-suspect` all along: proceed to step 4.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ci-autopsy"
-version = "0.1.0"
+version = "0.1.1"
 description = "Classify failed GitHub Actions runs: fetch logs via gh, match failure signatures, extract pytest summaries, advise the fix"
 readme = "README.md"
 requires-python = ">=3.11"

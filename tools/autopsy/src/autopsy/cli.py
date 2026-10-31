@@ -81,8 +81,17 @@ def cmd_classify(args) -> int:
 def cmd_run(args) -> int:
     rules = load_rules(args.rules, args.replace)
     run = fetch_run(args.target)
-    print(f"run       {run.name} [{run.event}] {run.url}")
+    print(f"run       {run.name} [attempt {run.attempt}; {run.event}] {run.url}")
     logs = fetch_logs(run)
+    if not logs:
+        print(f"action    No failed-job logs for attempt {run.attempt} "
+              f"(status: {run.data.get('status', 'unknown')}; "
+              f"conclusion: {run.data.get('conclusion') or 'pending'}).")
+        if run.data.get("conclusion") == "failure":
+            print("          Inspect workflow annotations; a workflow can fail before any job starts.")
+        elif run.data.get("status") != "completed":
+            print("          The attempt is not complete; check it again after jobs finish.")
+        return 0
     any_hits = False
     primaries = []
     for entry in logs:
@@ -93,9 +102,11 @@ def cmd_run(args) -> int:
             primaries.append(verdict.primary)
     if not any_hits:
         print(f"action    {UNKNOWN}")
-    print("\nnext      rerun failed jobs with: gh run rerun"
-          + (f" {run.repository} #{run.id}" if run.repository != "?" else "")
-          + f" --failed   (http failed-only view: {run.url[:-1] + '?check_suite_id=1 focus=failed' if False else run.url})")
+    if run.explicit_attempt:
+        print("\nnext      An explicit attempt was selected. Check the latest attempt before rerunning.")
+    elif len(primaries) == len(logs) and set(primaries) <= {"infra", "dependency"}:
+        print(f"\nnext      If the failure is still current, rerun failed jobs with: "
+              f"gh run rerun {run.id} --repo {run.repository} --failed")
     return 0
 
 
